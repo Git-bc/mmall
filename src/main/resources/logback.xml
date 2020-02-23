@@ -7,14 +7,10 @@
             catalina.home指向公用信息的位置，就是bin和lib的父目录。
             catalina.base指向每个Tomcat目录私有信息的位置，就是conf、logs、temp、webapps和work的父目录。
     -->
-    <propertie name="LOG_DIR" value="${catalina.base}/logs" />
-
-    <propertie name="pattern" value="[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n" />
-
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoding>UTF-8</encoding>
         <encoder>
-            <pattern>${pattern}</pattern>
+            <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>
@@ -23,30 +19,30 @@
 
     <appender name="mmall" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 被写入的文件名，可以是相对目录，也可以是绝对目录，如果上级目录不存在会自动创建 -->
-        <File>${LOG_DIR}/mmall.log</File>
+        <File>d:/logs/mmall.log</File>
         <!-- 当发生滚动时，决定RollingFileAppender的行为，涉及文件移动和重命名。属性class定义具体的滚动策略类 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 必要节点，包含文件名及"%d"转换符，"%d"可以包含一个java.text.SimpleDateFormat指定的时间格式，默认格式是 yyyy-MM-dd -->
-            <fileNamePattern>${LOG_DIR}/mmall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>d:/logs/mmall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <!-- 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件。假设设置每个月滚动，如果是6，则只保存最近6个月的文件，删除之前的旧文件 -->
             <maxHistory>10</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>${pattern}</pattern>
+            <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
         </encoder>
     </appender>
 
 
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${LOG_DIR}/error.log</File>
+        <File>d:/logs/error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>d:/logs/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <maxHistory>10</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>${pattern}</pattern>
+            <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
         </encoder>
         <!-- LevelFilter： 级别过滤器，根据日志级别进行过滤 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">

@@ -64,12 +64,7 @@
       <if test="role != null" >
         role,
       </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
+        create_time,update_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -96,12 +91,7 @@
       <if test="role != null" >
         #{role,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
-        now(),
-      </if>
-      <if test="updateTime != null" >
-        now(),
-      </if>
+        now(),now()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.mmall.pojo.User" >
@@ -131,9 +121,7 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
-        update_time = now(),
-      </if>
+        update_time = now()
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -150,4 +138,30 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <select id="checkUsername" resultType="int" parameterType="string">
+        select count(1)
+        from mmall_user
+        where username = #{username}
+    </select>
+
+    <select id="checkEmail" resultType="int" parameterType="string">
+        select count(1)
+        from mmall_user
+        where email = #{email}
+    </select>
+
+    <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"></include>
+        from mmall_user
+        where username = #{username}
+        and password = #{password}
+    </select>
+
+    <select id="selectQuestionByUsername" resultType="string" parameterType="string">
+        select question
+        from mmall_user
+        where username = #{username}
+    </select>
 </mapper>
