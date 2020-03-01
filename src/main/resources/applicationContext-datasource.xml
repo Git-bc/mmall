@@ -9,8 +9,6 @@
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <context:component-scan base-package="com.mmall.service.impl" annotation-config="true"/>
-
     <context:property-placeholder location="classpath:datasource.properties,classpath:mmall.properties" />
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -48,7 +46,8 @@
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="mapperLocations" value="classpath*:mappers/*Mapper.xml"></property>
+        <property name="mapperLocations" value="classpath*:mappers/*Mapper.xml"/>
+        <property name="typeAliasesPackage" value="com.mmall.pojo"/>
 
         <!-- 分页插件 -->
         <property name="plugins">

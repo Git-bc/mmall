@@ -33,4 +33,8 @@ public interface CartMapper {
 
     @Select("select ifnull(sum(quantity),0) as count from mmall_cart where user_id = #{userId}")
     int selectCartProductCount(Integer userId);
+
+    List<Cart> selCheckedCartByUserId(Integer userId);
+
+    int deleteByUserIdAndProductId(@Param("userId") Integer userId,@Param("productId") Integer productId);
 }

@@ -34,6 +34,11 @@ public class IProductServiceImpl implements IProductService {
     @Autowired
     private ICategoryService iCategoryService;
 
+    /**
+     * 更新或新增商品 √
+     * @param product 商品
+     * @return 业务处理结果
+     */
     @Override
     public ServerResponse saveOrUpdateProduct(Product product) {
         if (product != null){

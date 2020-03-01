@@ -13,12 +13,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
-
 @Controller
 @RequestMapping("/user/")
 public class UserController {
     @Autowired
     private IUserService iUserService;
+
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "register.do",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> register(User user){
+        return iUserService.register(user);
+    }
 
     /**
      * 用户登录
@@ -47,17 +57,6 @@ public class UserController {
         session.removeAttribute(Const.CURRENT_USER);
         session.invalidate();
         return ServerResponse.createBySuccess();
-    }
-
-    /**
-     * 注册
-     * @param user
-     * @return
-     */
-    @RequestMapping(value = "register.do",method = RequestMethod.POST)
-    @ResponseBody
-    public ServerResponse<String> register(User user){
-        return iUserService.register(user);
     }
 
     /**

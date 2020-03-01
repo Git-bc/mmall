@@ -74,7 +74,6 @@ public class ICategoryServiceImpl implements ICategoryService {
         }
         return ServerResponse.createBySuccess(categoryIdList);
     }
-
     private void findChildCategory(Set<Category> categorySet , Category category){
         if (category == null)
             return;

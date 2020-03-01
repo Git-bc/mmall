@@ -28,90 +28,51 @@ public class CategoryManageController {
 
     /**
      * 添加产品类别
-     * @param session
-     * @param categoryName
-     * @param parentId
-     * @return
+     * @param session session
+     * @param categoryName categoryName
+     * @param parentId parentId
+     * @return return
      */
     @RequestMapping(value = "add_category.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse addCategory(HttpSession session,String categoryName,@RequestParam(value = "parentId",defaultValue = "0") int parentId){
-        //是否登录
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
-        }
-        //校验是否司机管理员
-        if (iUserService.checkAdminRole(user).isSuccess()){
-            //是管理员
-            //处理分类
-            return iCategoryService.addCategory(categoryName, parentId);
-
-        }else {
-            return ServerResponse.createByErrorMessage("无操作权限，需要管理员权限");
-        }
+        return iCategoryService.addCategory(categoryName, parentId);
     }
 
     /**
      * 修改类别名称
-     * @param session
-     * @param categoryId
-     * @param categoryName
-     * @return
+     * @param session session
+     * @param categoryId categoryId
+     * @param categoryName categoryName
+     * @return return
      */
     @RequestMapping(value = "set_category_name.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse setCategoryName(HttpSession session,int categoryId,String categoryName){
-        //是否登录
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
-        }
-        if (iUserService.checkAdminRole(user).isSuccess()){
-            return iCategoryService.updateCategoryName(categoryId, categoryName);
-        }else {
-            return ServerResponse.createByErrorMessage("无操作权限，需要管理员权限");
-        }
+        return iCategoryService.updateCategoryName(categoryId, categoryName);
     }
 
     /**
      * 查询当前分类的子分类
-     * @param session
-     * @param categoryId
-     * @return
+     * @param session session
+     * @param categoryId categoryId
+     * @return return
      */
     @RequestMapping(value = "get_children_parallel_category.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<List<Category>> getChildrenParallelCategory(HttpSession session, @RequestParam(value = "categoryId",defaultValue = "0") int categoryId){
-        //是否登录
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
-        }
-        if (iUserService.checkAdminRole(user).isSuccess()){
-            return iCategoryService.getChildrenParallelCategory(categoryId);
-        }else {
-            return ServerResponse.createByErrorMessage("无操作权限，需要管理员权限");
-        }
+        return iCategoryService.getChildrenParallelCategory(categoryId);
     }
 
     /**
      * 获取当前品类Id及子孙品类Id
-     * @param session
-     * @param categoryId
-     * @return
+     * @param session session
+     * @param categoryId categoryId
+     * @return return return
      */
     @RequestMapping(value = "get_deep_category.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<List<Integer>> getCategoryAndDeepChildrenCategory(HttpSession session,int categoryId){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
-        }
-        if (iUserService.checkAdminRole(user).isSuccess()){
-            return iCategoryService.selectCategoryAndChildrenById(categoryId);
-        }else {
-            return ServerResponse.createByErrorMessage("无操作权限，需要管理员权限");
-        }
+        return iCategoryService.selectCategoryAndChildrenById(categoryId);
     }
 }
