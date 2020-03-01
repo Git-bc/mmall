@@ -63,7 +63,7 @@ public class UserController {
      * 校验信息
      * @param str 需要校验的信息的内容
      * @param type 需要校验的信息的类型
-     * @return
+     * @return return
      */
     @RequestMapping(value = "check_valid.do",method = RequestMethod.POST)
     @ResponseBody
@@ -79,11 +79,7 @@ public class UserController {
     @RequestMapping(value = "get_user_info.do",method = RequestMethod.POST)
     @ResponseBody
     public  ServerResponse<User> getUserInfo(HttpSession session){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user != null){
-            return ServerResponse.createBySuccess(user);
-        }
-        return ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户信息");
+        return ServerResponse.createBySuccess((User) session.getAttribute(Const.CURRENT_USER));
     }
 
     /**
@@ -133,11 +129,7 @@ public class UserController {
     @RequestMapping(value = "reset_password.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> resetPassword(HttpSession session,String passwordOld,String passwordNew){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user==null){
-            return ServerResponse.createByErrorMessage("用户未登录");
-        }
-        ServerResponse<String> response = iUserService.resetPassword(user, passwordOld, passwordNew);
+        ServerResponse<String> response = iUserService.resetPassword((User) session.getAttribute(Const.CURRENT_USER), passwordOld, passwordNew);
         if (response.isSuccess()){
             session.removeAttribute(Const.CURRENT_USER);
             session.invalidate();
@@ -155,9 +147,6 @@ public class UserController {
     @ResponseBody
     public ServerResponse<User> updateInformation(HttpSession session,User user){
         User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
-        if (currentUser==null){
-            return ServerResponse.createByErrorMessage("用户未登录");
-        }
         user.setId(currentUser.getId());
         user.setUsername(currentUser.getUsername());
         user.setRole(currentUser.getRole());
@@ -179,9 +168,6 @@ public class UserController {
     @ResponseBody
     public ServerResponse<User> getInformation(HttpSession session){
         User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
-        if (currentUser==null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,需要强制登录");
-        }
         ServerResponse<User> response = iUserService.getInformation(currentUser.getId());
         if (!response.isSuccess()){
             session.removeAttribute(Const.CURRENT_USER);
